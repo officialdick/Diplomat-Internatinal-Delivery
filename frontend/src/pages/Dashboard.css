@@ -1,0 +1,68 @@
+.dashboard {
+  padding: 20px;
+}
+
+.dashboard h1 {
+  margin-bottom: 30px;
+  color: #003366;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.stat-card h3 {
+  color: #666;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.stat-card .stat-number {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.stat-card.total {
+  border-left: 4px solid #667eea;
+}
+
+.stat-card.total .stat-number {
+  color: #667eea;
+}
+
+.stat-card.in-transit {
+  border-left: 4px solid #f093fb;
+}
+
+.stat-card.in-transit .stat-number {
+  color: #f093fb;
+}
+
+.stat-card.delivered {
+  border-left: 4px solid #43e97b;
+}
+
+.stat-card.delivered .stat-number {
+  color: #43e97b;
+}
+
+.stat-card.pending {
+  border-left: 4px solid #fa7e1e;
+}
+
+.stat-card.pending .stat-number {
+  color: #fa7e1e;
+}
