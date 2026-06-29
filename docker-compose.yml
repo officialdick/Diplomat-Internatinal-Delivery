@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: diplomat-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: diplomat_admin
+      MONGO_INITDB_ROOT_PASSWORD: secure_password
+      MONGO_INITDB_DATABASE: diplomat_db
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - diplomat-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: diplomat-backend
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_URI: mongodb://diplomat_admin:secure_password@mongodb:27017/diplomat_db?authSource=admin
+      JWT_SECRET: your_jwt_secret_key_here
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongodb
+    networks:
+      - diplomat-network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: diplomat-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:5000/api
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    networks:
+      - diplomat-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  redis:
+    image: redis:7-alpine
+    container_name: diplomat-redis
+    ports:
+      - '6379:6379'
+    networks:
+      - diplomat-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  diplomat-network:
+    driver: bridge
